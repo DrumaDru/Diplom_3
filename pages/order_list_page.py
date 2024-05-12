@@ -1,4 +1,4 @@
-import time
+import allure
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Diplom_3.helpers import Helpers
@@ -10,8 +10,6 @@ class OrderListPage(BasePage):
     constructor_tab = MainPageLocators.CONSTRUCTOR_TAB
     personal_account = MainPageLocators.PERSONAL_ACCOUNT
     orders_history = PersonalAccountLocators.ORDERS_HISTORY
-    constructor_element = MainPageLocators.CONSTRUCTOR_ELEMENT
-    bun = MainPageLocators.BUN
     order_list_tab = MainPageLocators.ORDER_LIST_TAB
     order = OrderPageListLocators.ORDER
     order_modal = OrderPageListLocators.ORDER_MODAL
@@ -21,13 +19,17 @@ class OrderListPage(BasePage):
     today_orders = OrderPageListLocators.TODAY_ORDERS
     order_in_work = OrderPageListLocators.ORDER_IN_WORK
 
-
+    @allure.step('Создаем метод, который переходи на вкладку "Лента заказаов", открывает модальное окно заказа и получает'
+                 'текст в модальном окне')
     def get_order_modal(self):
          self.click_to_element(self.order_list_tab)
          self.click_to_element(self.order)
 
          return self.get_text_from_element(self.order_modal)
 
+    @allure.step('Создаем метод, который переходит в раздел "Личный кабинет", во вкладку "История заказов", получает'
+                 'текст заказа, затем переходит во вкладку "Лента заказов" и получает текст заказа из списка, после чего,'
+                 'возвращает сравнение текста заказа из вкладки "История заказа" и текста заказа из списка заказов')
     def get_history_order_in_order_list(self):
         self.click_to_element(self.personal_account)
         self.click_to_element(self.orders_history)
@@ -37,6 +39,9 @@ class OrderListPage(BasePage):
 
         return source_element == expected_element
 
+    @allure.step('Создаем метод, который переходит на вкладку "Лента заказов", получает значение кол-ва заказов, за все время,'
+                 'создает новый заказ и получает новое значение кол-ва заказов за все время, а затем возвращает сравнение, которое '
+                 'показывает, что после выполнения нового заказа, значение кол-ва заказов за все время увеличивается')
     def get_all_time_orders(self):
         helpers = Helpers(self.driver)
         self.click_to_element(self.order_list_tab)
@@ -50,8 +55,10 @@ class OrderListPage(BasePage):
 
         return count_order_after > count_order_before
 
-
-
+    @allure.step(
+        'Создаем метод, который переходит на вкладку "Лента заказов", получает значение кол-ва заказов, за сегодня'
+        'создает новый заказ и получает новое значение кол-ва заказов за сегодня, а затем возвращает сравнение, которое '
+        'показывает, что после выполнения нового заказа, значение кол-ва заказов за сегодня увеличивается')
     def get_today_orders(self):
         helpers = Helpers(self.driver)
         self.click_to_element(self.order_list_tab)
@@ -65,7 +72,9 @@ class OrderListPage(BasePage):
 
         return count_order_after > count_order_before
 
-
+    @allure.step(
+        'Создаем метод, который создает новый заказ, переходит на вкладку "Лента заказов", получает текст нового заказа '
+        'и текст в разделе в "В работе", а затем возвращает равенство текста двух элементов.')
     def get_order_in_work(self):
         helpers = Helpers(self.driver)
         helpers.create_order()

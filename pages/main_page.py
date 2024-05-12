@@ -1,4 +1,4 @@
-import time
+import allure
 from selenium.webdriver.common.action_chains import ActionChains
 from Diplom_3.pages.base_page import BasePage
 from Diplom_3.locators.main_page_locators import MainPageLocators
@@ -8,6 +8,7 @@ class MainPage(BasePage):
     order_list_title = MainPageLocators.ORDER_LIST_TITLE
     constructor_tab = MainPageLocators.CONSTRUCTOR_TAB
     ingredient = MainPageLocators.INGREDIENT
+    ingredient_details = MainPageLocators.INGREDIENT_DETAILS
     close_button = MainPageLocators.CLOSE_BUTTON
     modal_title = MainPageLocators.MODAL_TITLE
     counter = MainPageLocators.COUNTER
@@ -16,32 +17,33 @@ class MainPage(BasePage):
     create_order_button = MainPageLocators.CREATE_ORDER_BUTTON
     order_modal = MainPageLocators.ORDER_MODAL
 
-
-
+    @allure.step('Создаем метод, который переходи на вкладку "Лента заказаов" и получает заголовок страницы "Лента заказов"')
     def go_to_order_list(self):
         self.click_to_element(self.order_list_tab)
         return self.get_text_from_element(self.order_list_title)
 
-
-
+    @allure.step('Создаем метод, который переходи на вкладку "Конструктор" и получает текст кнопки "Оформить заказ')
     def go_to_constructor(self):
         self.click_to_element(self.order_list_tab)
-        time.sleep(3)
         self.click_to_element(self.constructor_tab)
         return self.get_text_from_element(self.create_order_button)
 
-    def get_ingredient(self):
+    @allure.step('Создаем метод, который переходит на вкладку "Лента заказаов" и получает заголовок страницы "Лента заказов"')
+    def get_ingredient_details(self):
         self.click_to_element(self.ingredient)
-        return self.get_attribute_from_element(self.ingredient, 'alt')
+        return self.get_text_from_element(self.ingredient_details)
 
+    @allure.step('Создаем метод, который открывает модальное окно "Детали ингредиента" и закрыват его по нажатию крестика')
     def close_modal(self):
         self.click_to_element(self.ingredient)
-        self.click_to_element(self.close_button)
+        close_button = self.find_element_with_wait(self.close_button)
+        close_button.click()
         element = self.find_element_with_wait(self.modal_title)
         self.wait_until_close(self.modal_title)
 
         return element.is_displayed()
 
+    @allure.step('Создаем метод, который перемещает ингредиент в поле конструктора заказа и получает значение счетчика ингредиента')
     def get_counter(self):
         action_chains = ActionChains(self.driver)
         source_element = self.find_element_with_wait(self.bun)
@@ -50,6 +52,7 @@ class MainPage(BasePage):
 
         return self.get_text_from_element(self.counter)
 
+    @allure.step('Создаем метод, который открывает модальное окно с идентификатором заказа и получает текст в модальном окне')
     def get_order(self):
         self.click_to_element(self.create_order_button)
 
