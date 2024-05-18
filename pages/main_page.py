@@ -1,5 +1,4 @@
 import allure
-from selenium.webdriver.common.action_chains import ActionChains
 from Diplom_3.pages.base_page import BasePage
 from Diplom_3.locators.main_page_locators import MainPageLocators
 
@@ -45,12 +44,25 @@ class MainPage(BasePage):
 
     @allure.step('Создаем метод, который перемещает ингредиент в поле конструктора заказа и получает значение счетчика ингредиента')
     def get_counter(self):
-        action_chains = ActionChains(self.driver)
         source_element = self.find_element_with_wait(self.bun)
         target_element = self.find_element_with_wait(self.constructor_element)
-        action_chains.drag_and_drop(source_element, target_element).perform()
+
+        self.drug_and_drop(source_element, target_element)
 
         return self.get_text_from_element(self.counter)
+
+    @allure.step('Созжаем метод, который находит локатор с интгредиетом "булочка" и локатор "конструктор заказа".'
+                 'Далее с помощью метода drug_and_drop, добавляем ингредиент в констуктора заказа, оформляем заказ'
+                 'и закрываем модальное окно заказа. ')
+    def create_order(self):
+        source_element = self.find_element_with_wait(self.bun)
+        target_element = self.find_element_with_wait(self.constructor_element)
+
+        self.drug_and_drop(source_element, target_element)
+
+        self.click_to_element(self.create_order_button)
+        self.click_to_element(self.close_button)
+
 
     @allure.step('Создаем метод, который открывает модальное окно с идентификатором заказа и получает текст в модальном окне')
     def get_order(self):

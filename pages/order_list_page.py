@@ -1,8 +1,6 @@
 import allure
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from Diplom_3.helpers import Helpers
 from Diplom_3.pages.base_page import BasePage
+from Diplom_3.pages.main_page import MainPage
 from Diplom_3.locators.main_page_locators import MainPageLocators
 from Diplom_3.locators.order_list_page_locators import OrderPageListLocators
 from Diplom_3.locators.personal_account_page_locators import PersonalAccountLocators
@@ -43,12 +41,12 @@ class OrderListPage(BasePage):
                  'создает новый заказ и получает новое значение кол-ва заказов за все время, а затем возвращает сравнение, которое '
                  'показывает, что после выполнения нового заказа, значение кол-ва заказов за все время увеличивается')
     def get_all_time_orders(self):
-        helpers = Helpers(self.driver)
+        main_page = MainPage(self.driver)
         self.click_to_element(self.order_list_tab)
         count_order_before = int(self.get_text_from_element(self.all_time_orders))
         self.click_to_element(self.constructor_tab)
 
-        helpers.create_order()
+        main_page.create_order()
 
         self.click_to_element(self.order_list_tab)
         count_order_after = int(self.get_text_from_element(self.all_time_orders))
@@ -60,12 +58,12 @@ class OrderListPage(BasePage):
         'создает новый заказ и получает новое значение кол-ва заказов за сегодня, а затем возвращает сравнение, которое '
         'показывает, что после выполнения нового заказа, значение кол-ва заказов за сегодня увеличивается')
     def get_today_orders(self):
-        helpers = Helpers(self.driver)
+        main_page = MainPage(self.driver)
         self.click_to_element(self.order_list_tab)
         count_order_before = int(self.get_text_from_element(self.today_orders))
         self.click_to_element(self.constructor_tab)
 
-        helpers.create_order()
+        main_page.create_order()
 
         self.click_to_element(self.order_list_tab)
         count_order_after = int(self.get_text_from_element(self.today_orders))
@@ -76,21 +74,19 @@ class OrderListPage(BasePage):
         'Создаем метод, который создает новый заказ, переходит на вкладку "Лента заказов", получает текст нового заказа '
         'и текст в разделе в "В работе", а затем возвращает равенство текста двух элементов.')
     def get_order_in_work(self):
-        helpers = Helpers(self.driver)
-        helpers.create_order()
+        main_page = MainPage(self.driver)
+        main_page.create_order()
         self.click_to_element(self.order_list_tab)
         new_order = self.get_text_from_element(self.order_from_order_list)
         new_order_stripped = new_order.lstrip("#")
         order_in_work_locator = self.order_in_work
 
-        WebDriverWait(self.driver, 30).until(
-            EC.text_to_be_present_in_element(order_in_work_locator, new_order_stripped)
-        )
+        #условное ожидание, когда значнеие локатора new_order_stripped, появится в локаторе order_in_work_locator
+        self.to_be_present_in_element(order_in_work_locator, new_order_stripped)
+
         order_in_work = self.get_text_from_element(order_in_work_locator)
 
         return new_order_stripped == order_in_work
-
-
 
 
 

@@ -1,6 +1,7 @@
 import allure
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class BasePage:
@@ -40,3 +41,13 @@ class BasePage:
                  'элемент перестает отображаться на странице')
     def wait_until_close(self, locator):
         WebDriverWait(self.driver, 30).until(expected_conditions.invisibility_of_element(locator))
+
+    @allure.step('Создаем метод, который использует инструмент ожиания и условие, при котором,'
+                 'происходит ожидание, пока значение одного элемента, не станет таким же, как значение второго элемента.')
+    def to_be_present_in_element(self, locator_1, locator_2):
+        WebDriverWait(self.driver, 30).until(expected_conditions.text_to_be_present_in_element(locator_1, locator_2))
+
+    @allure.step('Создаем метод, который зажимает кликом требуемый элемент и переносит его в целевую область на странице')
+    def drug_and_drop(self, locator_1, locator_2):
+        action_chains = ActionChains(self.driver)
+        action_chains.drag_and_drop(locator_1, locator_2).perform()
