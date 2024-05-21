@@ -35,40 +35,40 @@ def driver(request):
 
 
 @pytest.fixture(scope="function")
-def registration_user():
+def registration_user_data():
     payload = test_data.payload
     email = test_data.payload["email"]
     requests.post(f"{test_data.curl}/api/auth/register", data=payload)
     return email
 
 
-@pytest.fixture(scope="function")
-def log_in(driver, registration_user):
-    base_page = BasePage(driver)
-    email = registration_user
-    password = test_data.payload["password"]
-    enter_to_account = MainPageLocators.ENTER_TO_ACCOUNT_BUTTON
-    input_email_login = StartPageLocators.INPUT_EMAIL_LOGIN
-    input_password_login = StartPageLocators.INPUT_PASSWORD_LOGIN
-    enter_button_login = StartPageLocators.ENTER_BUTTON_LOGIN
+# @pytest.fixture(scope="function")
+# def log_in(driver, registration_user):
+#     base_page = BasePage(driver)
+#     email = registration_user
+#     password = test_data.payload["password"]
+#     enter_to_account = MainPageLocators.ENTER_TO_ACCOUNT_BUTTON
+#     input_email_login = StartPageLocators.INPUT_EMAIL_LOGIN
+#     input_password_login = StartPageLocators.INPUT_PASSWORD_LOGIN
+#     enter_button_login = StartPageLocators.ENTER_BUTTON_LOGIN
+#
+#     base_page.click_to_element(enter_to_account)
+#     base_page.add_text_to_element(input_email_login, email)
+#     base_page.add_text_to_element(input_password_login, password)
+#     base_page.click_to_element(enter_button_login)
 
-    base_page.click_to_element(enter_to_account)
-    base_page.add_text_to_element(input_email_login, email)
-    base_page.add_text_to_element(input_password_login, password)
-    base_page.click_to_element(enter_button_login)
-
-@pytest.fixture(scope="function")
-def create_order(driver):
-    base_page = BasePage(driver)
-    action_chains = ActionChains(driver)
-    source_element = base_page.find_element_with_wait(MainPageLocators.BUN)
-    target_element = base_page.find_element_with_wait(MainPageLocators.CONSTRUCTOR_ELEMENT)
-    create_order = MainPageLocators.CREATE_ORDER_BUTTON
-    close_button = MainPageLocators.CLOSE_BUTTON
-
-    action_chains.drag_and_drop(source_element, target_element).perform()
-    base_page.click_to_element(create_order)
-    base_page.click_to_element(close_button)
+# @pytest.fixture(scope="function")
+# def create_order(driver):
+#     base_page = BasePage(driver)
+#     action_chains = ActionChains(driver)
+#     source_element = base_page.find_element_with_wait(MainPageLocators.BUN)
+#     target_element = base_page.find_element_with_wait(MainPageLocators.CONSTRUCTOR_ELEMENT)
+#     create_order = MainPageLocators.CREATE_ORDER_BUTTON
+#     close_button = MainPageLocators.CLOSE_BUTTON
+#
+#     action_chains.drag_and_drop(source_element, target_element).perform()
+#     base_page.click_to_element(create_order)
+#     base_page.click_to_element(close_button)
 
 
 

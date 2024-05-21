@@ -9,6 +9,7 @@ class OrderListPage(BasePage):
     personal_account = MainPageLocators.PERSONAL_ACCOUNT
     orders_history = PersonalAccountLocators.ORDERS_HISTORY
     order_list_tab = MainPageLocators.ORDER_LIST_TAB
+    order_list_title = OrderPageListLocators.ORDER_LIST_TITLE
     order = OrderPageListLocators.ORDER
     order_modal = OrderPageListLocators.ORDER_MODAL
     order_from_history = PersonalAccountLocators.ORDER_FROM_HISTORY
@@ -17,10 +18,12 @@ class OrderListPage(BasePage):
     today_orders = OrderPageListLocators.TODAY_ORDERS
     order_in_work = OrderPageListLocators.ORDER_IN_WORK
 
+    def get_order_list_title(self):
+        return self.get_text_from_element(self.order_list_title)
+
     @allure.step('Создаем метод, который переходи на вкладку "Лента заказаов", открывает модальное окно заказа и получает'
                  'текст в модальном окне')
     def get_order_modal(self):
-         self.click_to_element(self.order_list_tab)
          self.click_to_element(self.order)
 
          return self.get_text_from_element(self.order_modal)
@@ -28,30 +31,16 @@ class OrderListPage(BasePage):
     @allure.step('Создаем метод, который переходит в раздел "Личный кабинет", во вкладку "История заказов", получает'
                  'текст заказа, затем переходит во вкладку "Лента заказов" и получает текст заказа из списка, после чего,'
                  'возвращает сравнение текста заказа из вкладки "История заказа" и текста заказа из списка заказов')
-    def get_history_order_in_order_list(self):
-        self.click_to_element(self.personal_account)
-        self.click_to_element(self.orders_history)
-        source_element = self.get_text_from_element(self.order_from_history)
-        self.click_to_element(self.order_list_tab)
-        expected_element = self.get_text_from_element(self.order_from_order_list)
-
-        return source_element == expected_element
+    def get_order_list(self):
+        return self.get_text_from_element(self.order_from_order_list)
 
     @allure.step('Создаем метод, который переходит на вкладку "Лента заказов", получает значение кол-ва заказов, за все время,'
                  'создает новый заказ и получает новое значение кол-ва заказов за все время, а затем возвращает сравнение, которое '
                  'показывает, что после выполнения нового заказа, значение кол-ва заказов за все время увеличивается')
     def get_all_time_orders(self):
-        main_page = MainPage(self.driver)
-        self.click_to_element(self.order_list_tab)
-        count_order_before = int(self.get_text_from_element(self.all_time_orders))
-        self.click_to_element(self.constructor_tab)
+        count_order = int(self.get_text_from_element(self.all_time_orders))
 
-        main_page.create_order()
-
-        self.click_to_element(self.order_list_tab)
-        count_order_after = int(self.get_text_from_element(self.all_time_orders))
-
-        return count_order_after > count_order_before
+        return count_order
 
     @allure.step(
         'Создаем метод, который переходит на вкладку "Лента заказов", получает значение кол-ва заказов, за сегодня'

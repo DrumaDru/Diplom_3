@@ -5,11 +5,11 @@ from Diplom_3.locators.start_page_locators import StartPageLocators
 from Diplom_3.locators.main_page_locators import MainPageLocators
 
 class PersonalAccount(BasePage):
-    personal_account = MainPageLocators.PERSONAL_ACCOUNT
     profile_tab = PersonalAccountLocators.PROFILE_TAB
     orders_history = PersonalAccountLocators.ORDERS_HISTORY
     exit_tab = PersonalAccountLocators.EXIT_TAB
     enter_button_login = StartPageLocators.ENTER_BUTTON_LOGIN
+    order_from_history = PersonalAccountLocators.ORDER_FROM_HISTORY
 
     @allure.step('Создаем метод, который переходи на вкладку "Личный кабинет" и возвращает текст влкадки "Профиль"')
     def go_to_personal_account(self):
@@ -22,6 +22,10 @@ class PersonalAccount(BasePage):
          self.click_to_element(self.orders_history)
 
          return self.get_attribute_from_element(self.orders_history, "class")
+
+    def get_order_from_history(self):
+        self.click_to_element(self.orders_history)
+        return self.get_text_from_element(self.order_from_history)
 
     @allure.step('Создаем метод, который переходи на вкладку "Личный кабинет" и возвращает текст влкадки "Профиль"')
     def exit_from_account(self):

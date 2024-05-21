@@ -4,9 +4,10 @@ class MainPageLocators:
                                          "text()= 'Войти в аккаунт']")
     PERSONAL_ACCOUNT = (By.XPATH, ".//header//a/p[contains(@class, 'AppHeader_header__linkText__3q_va ml-2') and contains(text(), 'Личный Кабинет')]")
     ORDER_NUMBER = (By.XPATH, ".//div/p[text()= 'идентификатор заказа']")
-    ORDER_LIST_TAB = (By.XPATH, ".//p[@class = 'AppHeader_header__linkText__3q_va ml-2' and text() = 'Лента Заказов']")
-    ORDER_LIST_TITLE = (By.XPATH, ".//div[@class = 'OrderFeed_orderFeed__2RO_j']/h1[@class = 'text text_type_main-large mt-10 mb-5' and text() = 'Лента заказов']")
+    ORDER_LIST_TAB = (By.XPATH, ".//p[contains(@class, 'AppHeader_header__linkText__3q_va') and contains(text(), 'Лента Заказов')]")
+
     CONSTRUCTOR_TAB = (By.XPATH, ".//div//p[text() = 'Конструктор']")
+    CONSTRUCTOR_TITLE = (By.XPATH, ".//h1[@class = 'text text_type_main-large mb-5 mt-10']")
     INGREDIENT = (By.XPATH, ".//img[@alt = 'Флюоресцентная булка R2-D3' and @class = 'BurgerIngredient_ingredient__image__3e-07 ml-4 mr-4']")
     INGREDIENT_DETAILS = (By.XPATH, ".//div/h2[text() = 'Детали ингредиента']")
     CLOSE_BUTTON = (By.XPATH, ".//div/button[contains(@class, 'Modal_modal__close_modified__3V5XS Modal_modal__close__TnseK')]")

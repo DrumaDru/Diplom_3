@@ -49,5 +49,8 @@ class BasePage:
 
     @allure.step('Создаем метод, который зажимает кликом требуемый элемент и переносит его в целевую область на странице')
     def drug_and_drop(self, locator_1, locator_2):
+        locator_1 = self.find_element_with_wait(locator_1)
+        locator_2 = self.find_element_with_wait(locator_2)
         action_chains = ActionChains(self.driver)
         action_chains.drag_and_drop(locator_1, locator_2).perform()
+
