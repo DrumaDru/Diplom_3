@@ -1,9 +1,6 @@
 import allure
-import test_data
-import requests
 from Diplom_3.pages.base_page import BasePage
 from Diplom_3.locators.main_page_locators import MainPageLocators
-from Diplom_3.locators.start_page_locators import StartPageLocators
 
 class MainPage(BasePage):
     enter_to_account_button = MainPageLocators.ENTER_TO_ACCOUNT_BUTTON
@@ -20,18 +17,22 @@ class MainPage(BasePage):
     bun = MainPageLocators.BUN
     create_order_button = MainPageLocators.CREATE_ORDER_BUTTON
     order_modal = MainPageLocators.ORDER_MODAL
+    order_number = MainPageLocators.ORDER_NUMBER
 
-
+    @allure.step('Создаем метод, который выполняет клик по кнопке "Войти в аккаунт, для перехода на страницу авторизации')
     def go_to_log_in(self):
         self.click_to_element(self.enter_to_account_button)
 
-    @allure.step('Создаем метод, который переходи на вкладку "Лента заказаов" и получает заголовок страницы "Лента заказов"')
+    @allure.step('Создаем метод, который переходи на вкладку "Лента заказаов"')
     def go_to_order_list(self):
         self.click_to_element(self.order_list_tab)
 
+
+    @allure.step('Создаем метод, который переходи на вкладку "Конструктор"')
     def go_to_constructor(self):
         self.click_to_element(self.constructor_tab)
 
+    @allure.step('Создаем метод, который переходи на вкладку "Личный кабинет"')
     def go_to_personal_account(self):
         self.click_to_element(self.personal_account)
 
@@ -41,7 +42,7 @@ class MainPage(BasePage):
         self.click_to_element(self.constructor_tab)
         return self.get_text_from_element(self.constructor_title)
 
-    @allure.step('Создаем метод, который переходит на вкладку "Лента заказаов" и получает заголовок страницы "Лента заказов"')
+    @allure.step('Создаем метод, который открывает модальное окно "Детали ингредиента" и возвращает текст, заголовка окна.')
     def get_ingredient_details(self):
         self.click_to_element(self.ingredient)
         return self.get_text_from_element(self.ingredient_details)
@@ -49,8 +50,7 @@ class MainPage(BasePage):
     @allure.step('Создаем метод, который открывает модальное окно "Детали ингредиента" и закрыват его по нажатию крестика')
     def close_modal(self):
         self.click_to_element(self.ingredient)
-        close_button = self.find_element_with_wait(self.close_button)
-        close_button.click()
+        self.click_to_element(self.close_button)
         element = self.find_element_with_wait(self.modal_title)
         self.wait_until_close(self.modal_title)
 
@@ -62,22 +62,13 @@ class MainPage(BasePage):
 
         return self.get_text_from_element(self.counter)
 
-
-    # def create_order(self):
-    #     source_element = self.find_element_with_wait(self.bun)
-    #     target_element = self.find_element_with_wait(self.constructor_element)
-    #
-    #     self.drug_and_drop(source_element, target_element)
-    #
-    #     self.click_to_element(self.create_order_button)
-    #     self.click_to_element(self.close_button)
-
-    @allure.step(
-        'Создаем метод, который открывает модальное окно с идентификатором заказа и получает текст в модальном окне')
+    @allure.step('Создаем метод, который перемещает ингредиент в поле конструктора заказа, нажимает на кнопку "Оформить заказ"'
+        'и закрывает модальное окно.')
     def create_order(self):
         self.drug_and_drop(self.bun, self.constructor_element)
         self.click_to_element(self.create_order_button)
         self.click_to_element(self.close_button)
+
 
 
     @allure.step('Создаем метод, который открывает модальное окно с идентификатором заказа и получает текст в модальном окне')
@@ -86,6 +77,16 @@ class MainPage(BasePage):
         self.click_to_element(self.create_order_button)
 
         return self.get_text_from_element(self.order_modal)
+
+    @allure.step(
+        'Создаем метод, который выполняет оформлнеие ногового закаказа, открывает модальное окно с идентификатором заказа'
+        'получает текст элемента номера заказа и возвращает текст элемента.')
+    def get_order_number(self):
+        self.drug_and_drop(self.bun, self.constructor_element)
+        self.click_to_element(self.create_order_button)
+        self.click_to_element(self.close_button)
+
+        return self.get_text_from_element(self.order_number)
 
 
 

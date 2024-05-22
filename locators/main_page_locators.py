@@ -3,7 +3,7 @@ class MainPageLocators:
     ENTER_TO_ACCOUNT_BUTTON = (By.XPATH, ".//div/button[@class = 'button_button__33qZ0 button_button_type_primary__1O7Bx button_button_size_large__G21Vg' and "
                                          "text()= 'Войти в аккаунт']")
     PERSONAL_ACCOUNT = (By.XPATH, ".//header//a/p[contains(@class, 'AppHeader_header__linkText__3q_va ml-2') and contains(text(), 'Личный Кабинет')]")
-    ORDER_NUMBER = (By.XPATH, ".//div/p[text()= 'идентификатор заказа']")
+    ORDER_NUMBER = (By.XPATH, ".//h2[contains(@class, 'Modal_modal__title_shadow__3ikwq Modal_modal__title__2L34m')]")
     ORDER_LIST_TAB = (By.XPATH, ".//p[contains(@class, 'AppHeader_header__linkText__3q_va') and contains(text(), 'Лента Заказов')]")
 
     CONSTRUCTOR_TAB = (By.XPATH, ".//div//p[text() = 'Конструктор']")
